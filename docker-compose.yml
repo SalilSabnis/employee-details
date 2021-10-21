@@ -1,0 +1,26 @@
+version: "3"
+services:
+  emp-details:
+    image: employee-details
+    networks:
+      - employee
+    depends_on:
+      - emp-empr-details
+      - emp-bank-details
+ 
+  emp-empr-details:
+    image: employee-employment-details
+    ports:
+      - "8091:8080"
+    networks:
+      - employee
+  emp-bank-details:
+    image: employee-bank-details
+    ports:
+      - "8092:8080"
+    networks:
+      - employee
+
+
+networks:
+  employee:

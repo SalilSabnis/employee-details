@@ -1,0 +1,27 @@
+From openjdk:8
+
+copy ./target/employee-details-0.0.1-SNAPSHOT.jar employee-details-0.0.1-SNAPSHOT.jar
+CMD ["java","-jar","employee-details-0.0.1-SNAPSHOT.jar"]
+
+# supervisor installation &&
+# create directory for child images to store configuration in
+RUN apt-get -y install supervisor && \
+  mkdir -p /var/log/supervisor && \
+  mkdir -p /etc/supervisor/conf.d
+RUN mkdir /usr/api
+WORKDIR /usr/api
+
+# Add API Executable jar
+COPY myapp-api-0.0.1-SNAPSHOT.jar /usr/api/app.jar
+
+# Add Dist folder
+COPY dist/ /usr/local/apache2/htdocs/
+COPY .htaccess /usr/local/apache2/htdocs/
+RUN chmod -R 755 /usr/local/apache2/htdocs/
+COPY httpd.conf /usr/local/apache2/conf/httpd.conf
+
+# supervisor base configuration
+ADD supervisor.conf /etc/supervisor.conf
+
+# default command
+CMD ["supervisord", "-c", "/etc/supervisor.conf"]

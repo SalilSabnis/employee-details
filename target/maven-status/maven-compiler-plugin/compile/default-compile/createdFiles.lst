@@ -1,0 +1,6 @@
+com/salil/controllers/UserController.class
+com/salil/service/AggregateService.class
+com/salil/service/UserService.class
+com/salil/Application.class
+com/salil/config/SnowflakeConfig.class
+com/salil/model/User.class
